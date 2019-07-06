@@ -7,9 +7,11 @@ import traceback
 
 from collections import Counter
 
+
 @click.group()
 def cli():
     pass
+
 
 def print_defn(key, value=None, width=80):
     if value is None:
@@ -18,7 +20,7 @@ def print_defn(key, value=None, width=80):
     pretty = value.pretty(wrap=width - length)
     prefix = "%s = " % key
     for line in pretty:
-        print prefix + line
+        print(prefix + line)
         prefix = " " * length
 
 
@@ -27,6 +29,7 @@ def grammar():
     for key, value in sorted(describe.desc.lexicon.items()):
         print_defn(key, value)
 
+
 def get_graph():
     lex = describe.desc.lexicon
     nodes = sorted(lex.keys())
@@ -34,9 +37,10 @@ def get_graph():
     for parent, value in lex.items():
         value = repr(value)
         for child in nodes:
-            if re.search(r"\@%s\b" % child, value):
+            if re.search(r"@%s\b" % child, value):
                 edges.append((parent, child))
     return nodes, sorted(edges)
+
 
 @cli.command()
 def orphans():
@@ -46,23 +50,26 @@ def orphans():
         if parent_counts[node] <= 1:
             print_defn(node)
 
+
 @cli.command()
 def graph():
     nodes, edges = get_graph()
     parent_counts = Counter([x[1] for x in edges])    
     
-    print """
+    print("""
 digraph G {
     graph [rankdir="LR"];
-    """
+    """)
     for node in nodes:
-        print 'node_%s [label="%s", color="%s"];' % (node, node, "red" if
-                parent_counts[node] == 1 else "green")
+        print('node_%s [label="{}", color="{}"];'.format(
+            node, node, "red" if parent_counts[node] == 1 else "green"
+        ))
     for parent, child in edges:
-        print "node_%s -> node_%s;" % (parent, child)
-    print """
+        print("node_%s -> node_%s;" % (parent, child))
+    print("""
 }
-    """
+    """)
+
 
 @cli.command()
 def test():
@@ -83,7 +90,7 @@ def test():
             if state < len(labels):
                 return labels[state]
         
-        cmd = raw_input("> ").split()
+        cmd = input("> ").split()
         name = cmd[0]
         repeats = 1
         if len(cmd) > 1:
@@ -91,18 +98,20 @@ def test():
         try:
             desc = describe.parser(open("description.grammar").read())
         except:
-            print "Parse error"
+            print("Parse error")
             continue
         desc.function("word")(lambda *args: "WORD")
         desc.function("name")(lambda *args: "NAME")
         try:
-            for _ in xrange(repeats):
-                print desc(name, **kwargs)
+            for _ in range(repeats):
+                print(desc(name, **kwargs))
         except:
             t, v, tb = sys.exc_info()
-            print "Runtime error", t, v
+            print("Runtime error", t, v)
             traceback.print_tb(tb)
             del tb
             continue
+
+
 if __name__ == '__main__':
     cli()

@@ -67,7 +67,7 @@ class Language(object):
         n = random.randrange(len(morphemes) + (10 if key is None else 1))
         if n < len(morphemes):
             return morphemes[n]
-        for _ in xrange(100):
+        for _ in range(100):
             s = self.orthosyll()
             if maxlength and len(s) > maxlength:
                 continue
@@ -88,7 +88,7 @@ class Language(object):
                 self.last_n = self.last_n[-3:]
                 return ws[n]
             l = random.randrange(*self.wordlength)
-            keys = [key] + [None for _ in xrange(l-1)]
+            keys = [key] + [None for _ in range(l-1)]
             random.shuffle(keys)
             w = ''.join(self.morpheme(k) for k in keys)
             ws.append(w)
@@ -198,5 +198,5 @@ def show_language(l):
     print "* * *"
 
 if __name__ == '__main__':
-    for _ in xrange(20):
+    for _ in range(20):
         show_language(get_language())
