@@ -83,7 +83,7 @@ def write_description(directory, m):
             last_city = city
 
 def process_directory(directory, mode="shore"):
-    print "PROCESSING", directory, mode
+    print("PROCESSING", directory, mode)
     m = get_map(directory, mode)
     draw_map(directory, m)
     write_description(directory, m)
