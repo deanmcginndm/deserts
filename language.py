@@ -20,7 +20,7 @@ def choose(lst, exponent=2):
 class Language(object):
     def __init__(self, phonemes, syll='CVC', ortho={}, wordlength=(1,4), restricts=[]):
         self.phonemes = {}
-        for k, v in phonemes.iteritems():
+        for k, v in phonemes.items():
             v = list(v)
             random.shuffle(v)
             self.phonemes[k] = v
@@ -177,25 +177,30 @@ def get_language():
                            'S': sset},
                  syll=syll,
                  ortho=ortho,
-                restricts=restricts,
-                wordlength=(minlength, maxlength))
+                 restricts=restricts,
+                 wordlength=(minlength, maxlength))
     return l
 
+
 def show_language(l):
-    print l.phonemes['V'], l.phonemes['C']
-    if 'F' in l.syll: print l.phonemes['F'],
-    if 'L' in l.syll: print l.phonemes['L'],
-    if 'S' in l.syll: print l.phonemes['S'],
-    print l.syll
+    print(l.phonemes['V'], l.phonemes['C'])
+    if 'F' in l.syll:
+        print(l.phonemes['F'],)
+    if 'L' in l.syll:
+        print(l.phonemes['L'],)
+    if 'S' in l.syll:
+        print(l.phonemes['S'],)
+    print(l.syll)
     ps = set()
     while len(ps) < 10:
         ps.add(l.name("city"))
-    print u', '.join(ps)
+    print(u', '.join(ps))
     ps = set()
     while len(ps) < 10:
         ps.add(l.name("sea"))
-    print u', '.join(ps)
-    print "* * *"
+    print(u', '.join(ps))
+    print("* * *")
+
 
 if __name__ == '__main__':
     for _ in range(20):
