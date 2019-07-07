@@ -235,7 +235,7 @@ class Director(object):
         for k, v in args:
             lexicon[k].append(v)
         self.lexicon = {}
-        for k, v in lexicon.iteritems():
+        for k, v in lexicon.items():
             if len(v) > 1:
                 print("Got %d definitions for %s" % (len(v), k))
                 self.lexicon[k] = ChoiceGen(*v)
