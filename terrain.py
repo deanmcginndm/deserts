@@ -17,7 +17,7 @@ import _pickle as cPickle
 import gzip
 import itertools
 
-tex = True
+tex = False
 
 if tex:
     plt.rcParams['text.usetex'] = True
@@ -140,8 +140,12 @@ riverpercs = {
         'mountain': 8,
         'desert': 1
         }
+
+
 class MapException(Exception):
     pass
+
+
 class MapGrid(object):
     def __init__(self, mode='shore', n=16384):
         self.mode = mode
@@ -256,7 +260,7 @@ class MapGrid(object):
             for v in self.regions[p]:
                 self.tris[v].append(p)
         self.adj_mat = np.zeros((self.nvxs, 3), np.int32) - 1
-        for k, v in self.adj_vxs.iteritems():
+        for k, v in self.adj_vxs.items():
             if k != -1:    
                 self.adj_mat[k,:] = v
 
@@ -867,23 +871,24 @@ class MapGrid(object):
         for region in np.unique(self.territories):
             self.region_names[region] = self.lang.name("region")
 
-#m = MapGrid(16384)
-#cPickle.dump(m, open("map.pickle", "w"))
+# m = MapGrid(16384)
+# cPickle.dump(m, open("map.pickle", "w"))
 
-#m = cPickle.load(open("map.pickle"))
-#m.plot()
-#plt.savefig("test.png", dpi=150)
+# m = cPickle.load(open("map.pickle"))
+# m.plot()
+# plt.savefig("test.png", dpi=150)
         
         
-## In[88]:
+# In[88]:
 if __name__ == '__main__':
-    for i in range(100):
+    for i in range(10):
+        print(i)
         plt.close('all')
         while True:
             try:
                 m = MapGrid()
-                filename = "tests/%s-%02d.png" % (m.mode, i)
-                m.plot(filename)
+                filename = "test-{}.svg".format(i)
+                m.plot(filename, flag='w+')
                 break
             except AssertionError:
                 print("Failed assertion, retrying")
